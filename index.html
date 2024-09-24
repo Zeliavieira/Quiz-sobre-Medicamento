@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Quiz de Medicamentos</title>
+</head>
+<style>body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+#quiz-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ddd;
+}
+
+.correct {
+    background-color: green;
+    color: white;
+}
+
+.incorrect {
+    background-color: red;
+    color: white;
+}
+</style>
+<body>
+    <div id="quiz-container">
+        <h1>Quiz sobre Medicamentos</h1>
+        <div id="question"></div>
+        <div id="options"></div>
+        <div id="feedback" style="display: none;"></div>
+        <button id="next-button" style="display: none;">Próxima Pergunta</button>
+    </div>
+
+    <div id="result-container" style="display: none;">
+        <h2>Resultados</h2>
+        <p id="score"></p>
+        <button id="restart-button">Reiniciar Quiz</button>
+    </div>
+
+    <script src="script.js"></script>
+<script>const questions = [
+    {
+        question: "O que é assepsia?",
+        options: ["Método de prevenir infecções", "Uso de medicamentos", "Técnica de curativo", "Tratamento de doenças"],
+        answer: 0
+    },
+    {
+        question: "Qual a função da antissepsia?",
+        options: ["Eliminar microrganismos", "Promover a cicatrização", "Aumentar a infecção", "Reduzir dor"],
+        answer: 0
+    },
+    {
+        question: "O que é degermação?",
+        options: ["Remoção de sujeira e microrganismos", "Uso de medicamentos", "Tipo de curativo", "Tratamento com antibióticos"],
+        answer: 0
+    },
+    {
+        question: "Qual é o objetivo da desinfecção?",
+        options: ["Eliminar todos os microrganismos", "Reduzir a carga microbiana", "Aumentar a infecção", "Causar doenças"],
+        answer: 1
+    },
+    {
+        question: "O que é farmacodinâmica?",
+        options: ["Estudo de como os medicamentos afetam o corpo", "Estudo de como o corpo afeta os medicamentos", "Desenvolvimento de novos medicamentos", "Controle de efeitos colaterais"],
+        answer: 0
+    },
+    {
+        question: "Qual é a definição de fármaco?",
+        options: ["Qualquer substância que altera o funcionamento do corpo", "Somente medicamentos prescritos", "Produtos naturais", "Alimentos"],
+        answer: 0
+    },
+    {
+        question: "O que é farmacoterapia?",
+        options: ["Aplicação de medicamentos para tratar ou prevenir doenças", "Uso de terapias alternativas", "Apenas tratamentos cirúrgicos", "Monitoramento de pacientes"],
+        answer: 0
+    },
+    {
+        question: "Qual é a definição de medicamento?",
+        options: ["Substância para diagnosticar, tratar ou aliviar", "Apenas produtos químicos", "Somente medicamentos naturais", "Alimentos"],
+        answer: 0
+    },
+    {
+        question: "O que é efeito colateral?",
+        options: ["Relação indesejada provocada pela medicação", "Efeito desejado", "Uso correto do medicamento", "Aumento da eficácia"],
+        answer: 0
+    },
+    {
+        question: "Qual é a definição de dose terapêutica?",
+        options: ["Quantidade de medicamento que produz efeito desejado", "Dose mínima de medicamento", "Dose máxima permitida", "Dose de emergência"],
+        answer: 0
+    },
+    {
+        question: "Qual é a importância da preparação dos medicamentos?",
+        options: ["Garantir a eficácia e segurança do tratamento", "Apenas para fins estéticos", "Não é importante", "Para aumentar os custos"],
+        answer: 0
+    },
+    {
+        question: "O que é efeito terapêutico?",
+        options: ["Resultado positivo do tratamento", "Efeito indesejado", "Efeito secundário", "Interação entre medicamentos"],
+        answer: 0
+    },
+    {
+        question: "O que é efeito adverso?",
+        options: ["Reação indesejada", "Resultado esperado", "Efeito benéfico", "Efeito terapêutico"],
+        answer: 0
+    },
+    {
+        question: "O que é efeito tóxico?",
+        options: ["Efeito prejudicial ao organismo", "Resultado positivo do tratamento", "Efeito desejado", "Uso correto do medicamento"],
+        answer: 0
+    },
+    {
+        question: "O que significa 'paciente certo'?",
+        options: ["Identificação correta do paciente", "Escolha do medicamento", "Definição da dosagem", "Apenas registro em prontuário"],
+        answer: 0
+    },
+    {
+        question: "O que significa 'medicamento certo'?",
+        options: ["Escolha do medicamento adequado para a condição", "Qualquer medicamento disponível", "Medicamento mais barato", "Medicamento de uso popular"],
+        answer: 0
+    },
+    {
+        question: "O que significa 'dosagem certa'?",
+        options: ["Quantidade exata de medicamento para o tratamento", "Dose mínima", "Dose máxima", "Qualquer quantidade"],
+        answer: 0
+    },
+    {
+        question: "O que significa 'via certa'?",
+        options: ["Caminho adequado de administração do medicamento", "Apenas via oral", "Uso de injeções", "Via intravenosa sempre"],
+        answer: 0
+    },
+    {
+        question: "Por que o horário certo é importante?",
+        options: ["Para manter níveis adequados do medicamento no organismo", "Para aumentar a eficácia", "Não tem importância", "Para economizar"],
+        answer: 0
+    },
+    {
+        question: "Qual é a importância de aplicar as regras de segurança no uso de medicamentos?",
+        options: ["Para garantir a segurança do paciente e eficácia do tratamento", "Não tem importância", "Para aumentar os custos", "Para complicar o tratamento"],
+        answer: 0
+    },
+    {
+        question: "Qual é a função dos analgésicos?",
+        options: ["Reduzir a dor", "Causar sonolência", "Aumentar a pressão arterial", "Melhorar a digestão"],
+        answer: 0
+    },
+    {
+        question: "Qual é a função dos antidepressivos?",
+        options: ["Aumentar os níveis de serotonina", "Causar insônia", "Aumentar a ansiedade", "Causar sonolência"],
+        answer: 0
+    },
+    {
+        question: "Qual é o uso dos anticoagulantes?",
+        options: ["Para prevenir a formação de coágulos", "Para aumentar a coagulação sanguínea", "Para causar sangramentos", "Para tratar resfriados"],
+        answer: 0
+    },
+    {
+        question: "Qual é a função dos antipiréticos?",
+        options: ["Reduzir a febre", "Causar febre", "Causar dor", "Causar sonolência"],
+        answer: 0
+    },
+    {
+        question: "O que é polifarmácia?",
+        options: ["Uso de múltiplos medicamentos por um paciente", "Uso de um único medicamento", "Uso de medicamentos alternativos", "Uso de medicamentos apenas em emergência"],
+        answer: 0
+    },
+    {
+        question: "Qual é a consequência do uso inadequado de antibióticos?",
+        options: ["Aumento da resistência bacteriana", "Melhoria na saúde", "Redução de custos", "Aumento na eficácia"],
+        answer: 0
+    },
+    {
+        question: "Como os medicamentos devem ser armazenados?",
+        options: ["Em qualquer lugar", "Conforme orientações específicas de armazenamento", "Apenas no congelador", "Não é importante"],
+        answer: 1
+    },
+    {
+        question: "Qual é a diferença entre medicamentos de venda livre e medicamentos controlados?",
+        options: ["Os controlados requerem receita médica e têm um maior potencial de abuso", "Os de venda livre são sempre mais baratos", "Os controlados não têm efeitos colaterais", "Não há diferença"],
+        answer: 0
+    },
+    {
+        question: "O que é farmacovigilância?",
+        options: ["Monitoramento dos efeitos dos medicamentos após a comercialização", "Apenas um tipo de teste de medicamentos", "Apenas para medicamentos naturais", "Controle de medicamentos em farmácias"],
+        answer: 0
+    },
+    {
+        question: "Qual é a função dos antibióticos?",
+        options: ["Combater infecções bacterianas", "Combater infecções virais", "Reduzir febre", "Aliviar dor"],
+        answer: 0
+    },
+    {
+        question: "Qual é a importância da adesão ao tratamento?",
+        options: ["Para garantir a eficácia e segurança do tratamento", "Não é importante", "Para aumentar os custos", "Para complicar o tratamento"],
+        answer: 0
+    },
+    {
+        question: "O que é interação medicamentosa?",
+        options: ["Quando dois ou mais medicamentos afetam a eficácia um do outro", "Quando um medicamento é mais eficaz que outro", "Quando um medicamento não tem efeito", "Quando dois medicamentos são iguais"],
+        answer: 0
+    },
+    {
+        question: "Qual é a função das vacinas?",
+        options: ["Prevenir doenças por meio da imunização", "Tratar doenças", "Aumentar a dor", "Causar infecções"],
+        answer: 0
+    },
+    {
+        question: "O que são medicamentos genéricos?",
+        options: ["Medicamentos com o mesmo princípio ativo, mas com nome diferente", "Medicamentos mais caros", "Medicamentos de marcas famosas", "Medicamentos sem efeito"],
+        answer: 0
+    },
+    {
+        question: "Qual é a importância da consulta médica antes de usar medicamentos?",
+        options: ["Para garantir o uso seguro e eficaz dos medicamentos", "Não é importante", "Para aumentar os custos", "Para complicar o tratamento"],
+        answer: 0
+    },
+    {
+        question: "Qual é a função dos anti-inflamatórios?",
+        options: ["Reduzir a inflamação e a dor", "Causar dor", "Aumentar a pressão arterial", "Causar febre"],
+        answer: 0
+    },
+    {
+        question: "Qual é o papel dos medicamentos no tratamento de doenças crônicas?",
+        options: ["Gerenciar os sintomas e prevenir complicações", "Causar doenças", "Aumentar os sintomas", "Não é importante"],
+        answer: 0
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+function loadQuestion() {
+    const questionElement = document.getElementById("question");
+    const optionsElement = document.getElementById("options");
+    const feedbackElement = document.getElementById("feedback");
+    const nextButton = document.getElementById("next-button");
+    
+    feedbackElement.style.display = "none";
+    nextButton.style.display = "none";
+    
+    const currentQuestion = questions[currentQuestionIndex];
+    questionElement.innerText = currentQuestion.question;
+    optionsElement.innerHTML = "";
+    
+    currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.innerText = option;
+        button.onclick = () => checkAnswer(index);
+        optionsElement.appendChild(button);
+    });
+}
+
+function checkAnswer(selectedIndex) {
+    const currentQuestion = questions[currentQuestionIndex];
+    const feedbackElement = document.getElementById("feedback");
+    const nextButton = document.getElementById("next-button");
+    
+    feedbackElement.style.display = "block";
+
+    if (selectedIndex === currentQuestion.answer) {
+        feedbackElement.innerText = "Resposta Correta!";
+        score++;
+        document.querySelectorAll("#options button")[selectedIndex].classList.add("correct");
+    } else {
+        feedbackElement.innerText = "Resposta Errada!";
+        document.querySelectorAll("#options button")[selectedIndex].classList.add("incorrect");
+        document.querySelectorAll("#options button")[currentQuestion.answer].classList.add("correct");
+    }
+    
+    nextButton.style.display = "block";
+}
+
+document.getElementById("next-button").onclick = () => {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+};
+
+function showResults() {
+    document.getElementById("quiz-container").style.display = "none";
+    const resultContainer = document.getElementById("result-container");
+    resultContainer.style.display = "block";
+    document.getElementById("score").innerText = `Você acertou ${score} de ${questions.length} perguntas.`;
+}
+
+document.getElementById("restart-button").onclick = () => {
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById("result-container").style.display = "none";
+    document.getElementById("quiz-container").style.display = "block";
+    loadQuestion();
+};
+
+// Carregar a primeira pergunta
+loadQuestion();
+</script></body>
+</html>
